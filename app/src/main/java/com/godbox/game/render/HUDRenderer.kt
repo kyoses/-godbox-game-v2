@@ -72,9 +72,8 @@ class HUDRenderer {
         // 右侧：操作提示
         val hintX = 20f
         val hintY = canvas.height - 220f
-        paint.color = Color.argb(200, 0, 0, 0)
         VoxelModels.drawRoundRect(canvas, hintX, hintY,
-            hintX + 280f, hintY + 200f, 12f, paint)
+            hintX + 280f, hintY + 200f, 12f, Color.argb(200, 0, 0, 0))
         paint.color = Color.argb(120, 255, 215, 64)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 1.5f
