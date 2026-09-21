@@ -46,7 +46,7 @@ class InputHandler(
 
         override fun onScroll(e1: MotionEvent?, e2: MotionEvent, dx: Float, dy: Float): Boolean {
             if (scaleDetector.isInProgress) return true
-            camera.pan(-dx, -dy)
+            camera.panByPixels(-dx, -dy)
             return true
         }
 
