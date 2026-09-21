@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/silk_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tvMemorialTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="奏折标题"
+            android:textColor="@color/ink_red"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvMemorialMeta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="类型：军情 · 上奏：张辽"
+            android:textColor="@color/ink_cyan"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvMemorialContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="奏折内容..."
+            android:textColor="@color/ink_black"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/tvSuggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="建议：增兵"
+            android:textColor="@color/ink_cyan"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="32dp">
+
+            <Button
+                android:id="@+id/btnApprove"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="批红"
+                android:textColor="@color/silk_bg"
+                android:background="@drawable/btn_round_red" />
+
+            <Button
+                android:id="@+id/btnHold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="留中"
+                android:textColor="@color/ink_gold"
+                android:background="@drawable/btn_round_gold" />
+
+            <Button
+                android:id="@+id/btnReject"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="驳回"
+                android:textColor="@color/ink_red"
+                android:background="@drawable/btn_round_silk" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

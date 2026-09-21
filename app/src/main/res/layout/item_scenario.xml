@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/btn_round_silk"
+    android:padding="16dp"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="曹操"
+        android:textColor="@color/ink_red"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDynasty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="魏"
+        android:textColor="@color/ink_gold"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvEra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="建安元年"
+        android:textColor="@color/ink_cyan"
+        android:textSize="13sp"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvDifficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="难度：中等"
+        android:textColor="@color/ink_cyan"
+        android:textSize="12sp"
+        android:layout_marginTop="2dp" />
+</LinearLayout>

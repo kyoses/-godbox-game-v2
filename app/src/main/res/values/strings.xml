@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">上帝模拟器</string>
+    <string name="app_name">三国做皇帝</string>
+    <string name="start_game">开始游戏</string>
+    <string name="select_scenario">请选择剧本</string>
+    <string name="back">返回</string>
+    <string name="next_hour">下一时辰</string>
+    <string name="save">存档</string>
+    <string name="council">朝会</string>
+    <string name="audience">召见</string>
+    <string name="map_view">地图</string>
+    <string name="campaign">亲征</string>
+    <string name="harem">后宫</string>
 </resources>

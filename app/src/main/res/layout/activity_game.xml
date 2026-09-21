@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/ink_black">
+
+    <!-- 顶栏 -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/ink_red"
+        android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="永安宫 · 帝历1年1月1日 卯时"
+            android:textColor="@color/silk_bg"
+            android:textSize="18sp"
+            android:fontFamily="serif" />
+
+        <Button
+            android:id="@+id/btnNextHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next_hour"
+            android:textColor="@color/ink_gold"
+            android:textSize="14sp"
+            android:background="@drawable/btn_round_gold" />
+    </LinearLayout>
+
+    <!-- 资源条 -->
+    <LinearLayout
+        android:id="@+id/resourceBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/ink_cyan"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tvGold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="💰 10000"
+            android:textColor="@color/ink_gold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvMorale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="👥 民心 80"
+            android:textColor="@color/silk_bg"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvStamina"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="⚡ 体力 100"
+            android:textColor="@color/silk_bg"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- 三面板 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- 臣子列表 -->
+        <LinearLayout
+            android:id="@+id/leftPanel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@color/panel_bg"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="臣子"
+                android:textColor="@color/ink_gold"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMinisters"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <!-- 中央场景 -->
+        <LinearLayout
+            android:id="@+id/centerPanel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.4"
+            android:orientation="vertical"
+            android:background="@color/silk_bg"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvSceneTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="永安宫"
+                android:textColor="@color/ink_red"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <com.threekingdoms.emperor.ui.ScenePanelView
+                android:id="@+id/sceneView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvSceneDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="大殿庄严，檀香袅袅。"
+                android:textColor="@color/ink_cyan"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 奏折列表 -->
+        <LinearLayout
+            android:id="@+id/rightPanel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@color/panel_bg"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="奏折"
+                android:textColor="@color/ink_gold"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMemorials"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 底部行动菜单 -->
+    <com.threekingdoms.emperor.ui.ActionMenuView
+        android:id="@+id/actionMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

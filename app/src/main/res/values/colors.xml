@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#1A237E</color>
-    <color name="primary_dark">#0D1545</color>
-    <color name="accent">#FFD740</color>
-    <color name="ic_launcher_background">#1A237E</color>
-    <color name="hud_text">#FFFFFF</color>
-    <color name="panel_bg">#CC1A237E</color>
-    <color name="toolbar_bg">#CC1A237E</color>
+    <color name="ink_black">#1B1B1B</color>
+    <color name="ink_red">#B71C1C</color>
+    <color name="ink_gold">#C9A14A</color>
+    <color name="silk_bg">#F5E6C8</color>
+    <color name="ink_cyan">#37474F</color>
+    <color name="primary">#B71C1C</color>
+    <color name="primary_dark">#1B1B1B</color>
+    <color name="accent">#C9A14A</color>
+    <color name="ic_launcher_background">#B71C1C</color>
+    <color name="hud_text">#F5E6C8</color>
+    <color name="panel_bg">#CC1B1B1B</color>
+    <color name="toolbar_bg">#CC1B1B1B</color>
 </resources>

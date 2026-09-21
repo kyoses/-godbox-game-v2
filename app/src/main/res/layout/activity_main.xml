@@ -2,30 +2,43 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/ink_black">
 
-    <com.godbox.game.engine.GameView
-        android:id="@+id/gameView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.godbox.game.ui.ToolBarView
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
-
-    <TextView
-        android:id="@+id/hud"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_margin="12dp"
-        android:padding="8dp"
-        android:background="@color/toolbar_bg"
-        android:textColor="@color/hud_text"
-        android:textSize="13sp"
-        android:fontFamily="monospace"
-        android:text="" />
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="三国"
+            android:textColor="@color/ink_gold"
+            android:textSize="80sp"
+            android:fontFamily="serif"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="做皇帝"
+            android:textColor="@color/ink_red"
+            android:textSize="60sp"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:layout_marginBottom="48dp" />
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="240dp"
+            android:layout_height="72dp"
+            android:text="@string/start_game"
+            android:textColor="@color/silk_bg"
+            android:textSize="22sp"
+            android:background="@drawable/btn_round_red" />
+    </LinearLayout>
 
 </FrameLayout>

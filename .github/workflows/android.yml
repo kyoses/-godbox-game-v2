@@ -1,4 +1,4 @@
-name: Build Godbox APK
+name: Build ThreeKingdoms APK
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
         with:
           gradle-version: '8.6'
 
-      - name: Generate gradle wrapper (project ships without one)
+      - name: Generate gradle wrapper
         run: gradle wrapper --gradle-version 8.6 --distribution-type bin
         shell: bash
 
@@ -38,7 +38,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: godbox-debug-apk
+          name: three-kingdoms-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
