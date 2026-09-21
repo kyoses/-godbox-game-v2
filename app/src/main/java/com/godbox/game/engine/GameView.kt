@@ -26,11 +26,12 @@ class GameView @JvmOverloads constructor(
 
     private var thread: GameThread? = null
     private var initialized = false
-    private lateinit var inputHandler: InputHandler
+    private var inputHandler: InputHandler? = null
 
     init {
         holder.addCallback(this)
         isFocusable = true
+        isClickable = true
         // 默认相机偏移：把世界中心推到屏幕中
         post {
             camera.offsetX = 0f
@@ -80,7 +81,8 @@ class GameView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return inputHandler.onTouchEvent(event)
+        val handler = inputHandler ?: return false
+        return handler.onTouchEvent(event) || super.onTouchEvent(event)
     }
 
     fun tick(dt: Float) {
@@ -96,9 +98,11 @@ class GameView @JvmOverloads constructor(
                 ToolCategory.CLEAR -> "清除"
                 ToolCategory.NONE -> "-"
             }
+            val handler = inputHandler
             renderer.render(canvas, world, camera, width, height,
-                inputHandler.selectedCellX, inputHandler.selectedCellY,
-                toolLabel, inputHandler.godHandMode)
+                handler?.selectedCellX ?: -1,
+                handler?.selectedCellY ?: -1,
+                toolLabel, handler?.godHandMode ?: false)
         } finally {
             holder.unlockCanvasAndPost(canvas)
         }
