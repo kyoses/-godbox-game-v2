@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/btn_round_silk"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp">
+
+    <TextView
+        android:id="@+id/tvForceName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="蜀"
+        android:textColor="@color/ink_red"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvRelationship"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="关系：0"
+        android:textColor="@color/ink_cyan"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvTreasury"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="国库：5000"
+        android:textColor="@color/ink_cyan"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp">
+
+        <Button
+            android:id="@+id/btnGift"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="赠礼"
+            android:textColor="@color/silk_bg"
+            android:background="@drawable/btn_round_red" />
+
+        <Button
+            android:id="@+id/btnAlly"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="结盟"
+            android:textColor="@color/ink_gold"
+            android:background="@drawable/btn_round_gold" />
+
+        <Button
+            android:id="@+id/btnWar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="宣战"
+            android:textColor="@color/silk_bg"
+            android:background="@color/ink_red" />
+    </LinearLayout>
+</LinearLayout>

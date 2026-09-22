@@ -8,13 +8,16 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.threekingdoms.emperor.data.EndingType
 import com.threekingdoms.emperor.data.GameState
 import com.threekingdoms.emperor.data.GameStateRepository
 import com.threekingdoms.emperor.data.Memorial
 import com.threekingdoms.emperor.data.Minister
+import com.threekingdoms.emperor.data.SaveManager
 import com.threekingdoms.emperor.engine.TimeSystem
 import com.threekingdoms.emperor.ui.ActionMenuView
 import com.threekingdoms.emperor.ui.ScenePanelView
@@ -50,21 +53,65 @@ class GameActivity : AppCompatActivity(), ActionMenuView.Listener {
         sceneView.setScenarioId(GameStateRepository.scenarioId)
         actionMenu.listener = this
 
-        findViewById<Button>(R.id.btnNextHour).setOnClickListener {
-            val t = TimeSystem.advance(state)
-            Toast.makeText(this, "推进至 $t", Toast.LENGTH_SHORT).show()
-            refreshAll()
+        findViewById<Button>(R.id.btnNextHour).setOnClickListener { nextHourClicked() }
+        findViewById<Button>(R.id.btnDiplomacy).setOnClickListener {
+            startActivity(Intent(this, DiplomacyActivity::class.java))
         }
+        findViewById<Button>(R.id.btnSave).setOnClickListener { saveGame() }
 
         rvMinisters.layoutManager = LinearLayoutManager(this)
         rvMemorials.layoutManager = LinearLayoutManager(this)
         refreshAll()
+        checkEnding()
     }
 
     override fun onResume() {
         super.onResume()
         state = GameStateRepository.state ?: run { finish(); return }
         refreshAll()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // 自动存档
+        if (GameStateRepository.state != null) {
+            SaveManager.autoSave(this, GameStateRepository.state!!)
+        }
+    }
+
+    private fun nextHourClicked() {
+        val result = TimeSystem.advance(state)
+        Toast.makeText(this, "推进至 ${result.timeStr}", Toast.LENGTH_SHORT).show()
+
+        if (result.aiWarning != null) {
+            Toast.makeText(this, "⚔ ${result.aiWarning}", Toast.LENGTH_LONG).show()
+        }
+
+        if (result.event != null) {
+            startActivity(Intent(this, EventDialogActivity::class.java))
+        }
+
+        refreshAll()
+        checkEnding()
+    }
+
+    private fun saveGame() {
+        AlertDialog.Builder(this)
+            .setTitle("保存存档")
+            .setItems(arrayOf("存档 1", "存档 2", "存档 3")) { _, which ->
+                SaveManager.save(this, which, state)
+                Toast.makeText(this, "已保存到存档 ${which + 1}", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("取消", null)
+            .show()
+    }
+
+    private fun checkEnding() {
+        if (state.ending != EndingType.NONE) {
+            GameStateRepository.pendingEnding = state.ending
+            startActivity(Intent(this, EndingActivity::class.java))
+            finish()
+        }
     }
 
     private fun refreshAll() {
@@ -86,7 +133,6 @@ class GameActivity : AppCompatActivity(), ActionMenuView.Listener {
             Toast.makeText(this, "今日无奏折", Toast.LENGTH_SHORT).show()
             return
         }
-        // 默认进入第一条奏折
         startActivity(MemorialDetailActivity.intent(this, state.memorials.first().id))
     }
 

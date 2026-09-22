@@ -19,6 +19,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SaveActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|density"
+            android:exported="false" />
+
         <activity android:name=".ScenarioSelectActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|density"
             android:exported="false" />
@@ -44,6 +48,22 @@
             android:exported="false" />
 
         <activity android:name=".HaremActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|density"
+            android:exported="false" />
+
+        <activity android:name=".PrefectureManageActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|density"
+            android:exported="false" />
+
+        <activity android:name=".DiplomacyActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|density"
+            android:exported="false" />
+
+        <activity android:name=".EndingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|density"
+            android:exported="false" />
+
+        <activity android:name=".EventDialogActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|screenLayout|uiMode|smallestScreenSize|density"
             android:exported="false" />
 

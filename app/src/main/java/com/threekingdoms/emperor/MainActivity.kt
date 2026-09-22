@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.btnStart).setOnClickListener {
-            startActivity(Intent(this, ScenarioSelectActivity::class.java))
+            startActivity(Intent(this, SaveActivity::class.java))
         }
     }
 }

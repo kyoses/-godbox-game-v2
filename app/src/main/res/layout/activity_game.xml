@@ -26,13 +26,41 @@
             android:fontFamily="serif" />
 
         <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:text="存"
+            android:textColor="@color/silk_bg"
+            android:textSize="14sp"
+            android:background="@drawable/btn_round_red" />
+
+        <Button
             android:id="@+id/btnNextHour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
             android:text="@string/next_hour"
             android:textColor="@color/ink_gold"
             android:textSize="14sp"
             android:background="@drawable/btn_round_gold" />
+    </LinearLayout>
+
+    <!-- 快捷操作 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btnDiplomacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🤝 外交"
+            android:textColor="@color/silk_bg"
+            android:textSize="14sp"
+            android:background="@drawable/btn_round_red" />
     </LinearLayout>
 
     <!-- 资源条 -->

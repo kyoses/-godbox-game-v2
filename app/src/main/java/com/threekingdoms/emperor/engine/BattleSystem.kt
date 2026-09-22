@@ -81,4 +81,37 @@ object BattleSystem {
         return BattleResult(won, log, attackerLoss, defenderLoss,
             if (won) target.tax + 500 else 0)
     }
+
+    /**
+     * AI 进攻接口：不消耗玩家体力，根据 AI 势力战力计算。
+     */
+    fun battleByAi(attackerForceId: String, target: Prefecture): BattleResult {
+        val log = mutableListOf<String>()
+        log.add("【AI 攻伐】${attackerForceId} 进攻 ${target.name}")
+
+        // AI 战力 = 邻郡兵力 / 200 + 随机扰动
+        val attackerPower = target.troops / 200f + Random.nextFloat() * 30f
+        val defenderPower = (target.troops / 100f) * (target.morale / 50f)
+        log.add("【交锋】攻 ${attackerPower.toInt()} vs 守 ${defenderPower.toInt()}")
+
+        var atkHp = 100
+        var defHp = (target.troops / 1000).coerceAtLeast(1)
+        val attackerInitialHp = atkHp
+        val defenderInitialHp = defHp
+
+        var round = 1
+        while (atkHp > 0 && defHp > 0 && round <= 10) {
+            val atkDamage = max(5, (attackerPower * Random.nextFloat() * 0.3f).toInt())
+            val defDamage = max(2, (defenderPower * Random.nextFloat() * 0.2f).toInt())
+            defHp -= atkDamage
+            atkHp -= defDamage
+            round++
+        }
+
+        val won = defHp <= 0
+        log.add(if (won) "【AI 胜】${target.name} 沦陷" else "【AI 败】撤军")
+
+        return BattleResult(won, log, attackerInitialHp - atkHp,
+            defenderInitialHp - defHp, 0)
+    }
 }

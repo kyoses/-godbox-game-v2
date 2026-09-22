@@ -15,12 +15,32 @@ object ScenarioLoader {
         val s = SCENARIOS.find { it.id == id } ?: SCENARIOS.first()
         GameStateRepository.scenarioId = id
         GameStateRepository.phase = GamePhase.MAIN
+
+        // 初始化势力关系（玩家对其他势力起始关系）
+        val forces = mutableListOf(
+            Force(Force.HAN, "汉室", Force.colorOf(Force.HAN), treasury = 5000),
+            Force(Force.WEI, "魏", Force.colorOf(Force.WEI), treasury = 8000),
+            Force(Force.SHU, "蜀", Force.colorOf(Force.SHU), treasury = 7000),
+            Force(Force.WU, "吴", Force.colorOf(Force.WU), treasury = 7000),
+            Force(Force.QUNXIONG, "群雄", Force.colorOf(Force.QUNXIONG), treasury = 6000),
+            Force(Force.XIONGNU, "匈奴", Force.colorOf(Force.XIONGNU), treasury = 4000)
+        )
+        // 玩家对其他势力起始关系
+        val playerForceId = s.initialEmperor.force
+        forces.forEach { f ->
+            f.setRelationship(playerForceId, when (f.id) {
+                playerForceId -> 100
+                else -> 0
+            })
+        }
+
         val state = GameState(
             emperor = s.initialEmperor.copy(),
             ministers = s.initialMinisters.map { it.copy() }.toMutableList(),
             memorials = s.initialMemorials.map { it.copy() }.toMutableList(),
             prefectures = s.initialPrefectures.map { it.copy() }.toMutableList(),
             consorts = s.initialConsorts.map { it.copy() }.toMutableList(),
+            forces = forces,
             gold = 12000,
             peopleMorale = 75,
             troopTotal = 80000
@@ -383,79 +403,79 @@ object ScenarioLoader {
      */
     private fun defaultPrefectures(): List<Prefecture> = listOf(
         // 司隶
-        p("luoyang", "洛阳", "司隶", 12, 8, "汉", 8000, 90),
-        p("chang'an", "长安", "司隶", 8, 6, "汉", 7000, 75),
-        p("hongnong", "弘农", "司隶", 9, 7, "汉", 4000, 70),
+        p("luoyang", "洛阳", "司隶", 12, 8, "群雄", 8000, 90),
+        p("chang'an", "长安", "司隶", 8, 6, "群雄", 7000, 75),
+        p("hongnong", "弘农", "司隶", 9, 7, "魏", 4000, 70),
 
         // 冀州
-        p("ye", "邺", "冀州", 14, 7, "汉", 10000, 85),
-        p("jizhou", "冀州", "冀州", 13, 6, "汉", 6000, 75),
+        p("ye", "邺", "冀州", 14, 7, "魏", 10000, 85),
+        p("jizhou", "冀州", "冀州", 13, 6, "魏", 6000, 75),
 
         // 兖州
-        p("chenliu", "陈留", "兖州", 13, 9, "汉", 6000, 80),
-        p("yanzhou", "兖州", "兖州", 14, 8, "汉", 5000, 75),
+        p("chenliu", "陈留", "兖州", 13, 9, "魏", 6000, 80),
+        p("yanzhou", "兖州", "兖州", 14, 8, "魏", 5000, 75),
 
         // 豫州
-        p("xuchang", "许昌", "豫州", 13, 10, "汉", 8000, 85),
-        p("ruzhou", "汝南", "豫州", 12, 12, "汉", 5000, 70),
+        p("xuchang", "许昌", "豫州", 13, 10, "魏", 8000, 85),
+        p("ruzhou", "汝南", "豫州", 12, 12, "魏", 5000, 70),
 
         // 徐州
-        p("xiaopei", "小沛", "徐州", 16, 9, "汉", 4000, 65),
-        p("pengcheng", "彭城", "徐州", 17, 8, "汉", 5000, 70),
-        p("langu", "琅琊", "徐州", 18, 7, "汉", 4000, 65),
+        p("xiaopei", "小沛", "徐州", 16, 9, "魏", 4000, 65),
+        p("pengcheng", "彭城", "徐州", 17, 8, "吴", 5000, 70),
+        p("langu", "琅琊", "徐州", 18, 7, "吴", 4000, 65),
 
         // 青州
-        p("qingzhou", "青州", "青州", 17, 6, "汉", 6000, 75),
-        p("beihai", "北海", "青州", 18, 5, "汉", 5000, 70),
+        p("qingzhou", "青州", "青州", 17, 6, "吴", 6000, 75),
+        p("beihai", "北海", "青州", 18, 5, "吴", 5000, 70),
 
         // 幽州
-        p("youzhou", "幽州", "幽州", 17, 2, "汉", 7000, 70),
-        p("zhuojun", "涿郡", "幽州", 16, 4, "汉", 5000, 75),
+        p("youzhou", "幽州", "幽州", 17, 2, "匈奴", 7000, 70),
+        p("zhuojun", "涿郡", "幽州", 16, 4, "魏", 5000, 75),
 
         // 并州
-        p("bingzhou", "并州", "并州", 13, 3, "汉", 5000, 65),
-        p("shangdang", "上党", "并州", 12, 5, "汉", 4000, 60),
+        p("bingzhou", "并州", "并州", 13, 3, "匈奴", 5000, 65),
+        p("shangdang", "上党", "并州", 12, 5, "魏", 4000, 60),
 
         // 雍州
-        p("yongzhou", "雍州", "雍州", 6, 6, "汉", 5000, 70),
-        p("tianshui", "天水", "雍州", 5, 7, "汉", 4000, 65),
+        p("yongzhou", "雍州", "雍州", 6, 6, "群雄", 5000, 70),
+        p("tianshui", "天水", "雍州", 5, 7, "群雄", 4000, 65),
 
         // 凉州
-        p("liangzhou", "凉州", "凉州", 3, 5, "汉", 4000, 55),
-        p("wuwei", "武威", "凉州", 2, 4, "汉", 3000, 50),
+        p("liangzhou", "凉州", "凉州", 3, 5, "群雄", 4000, 55),
+        p("wuwei", "武威", "凉州", 2, 4, "群雄", 3000, 50),
 
         // 益州
-        p("chengdu", "成都", "益州", 6, 13, "汉", 12000, 90),
-        p("yizhou", "益州", "益州", 8, 13, "汉", 7000, 80),
-        p("hanzhong", "汉中", "益州", 8, 10, "汉", 6000, 70),
-        p("yongan", "永安", "益州", 9, 15, "汉", 5000, 65),
+        p("chengdu", "成都", "益州", 6, 13, "蜀", 12000, 90),
+        p("yizhou", "益州", "益州", 8, 13, "蜀", 7000, 80),
+        p("hanzhong", "汉中", "益州", 8, 10, "蜀", 6000, 70),
+        p("yongan", "永安", "益州", 9, 15, "蜀", 5000, 65),
 
         // 荆州
-        p("jingzhou", "荆州", "荆州", 11, 13, "汉", 8000, 75),
-        p("xiangyang", "襄阳", "荆州", 10, 11, "汉", 7000, 80),
-        p("jiangling", "江陵", "荆州", 11, 14, "汉", 6000, 75),
-        p("wuling", "武陵", "荆州", 12, 16, "汉", 4000, 65),
-        p("changsha", "长沙", "荆州", 13, 17, "汉", 5000, 70),
+        p("jingzhou", "荆州", "荆州", 11, 13, "蜀", 8000, 75),
+        p("xiangyang", "襄阳", "荆州", 10, 11, "魏", 7000, 80),
+        p("jiangling", "江陵", "荆州", 11, 14, "蜀", 6000, 75),
+        p("wuling", "武陵", "荆州", 12, 16, "蜀", 4000, 65),
+        p("changsha", "长沙", "荆州", 13, 17, "吴", 5000, 70),
 
         // 扬州
-        p("jianye", "建业", "扬州", 18, 13, "汉", 10000, 85),
-        p("wu", "吴郡", "扬州", 19, 14, "汉", 7000, 80),
-        p("kuaiji", "会稽", "扬州", 20, 15, "汉", 5000, 75),
-        p("lujiang", "庐江", "扬州", 15, 13, "汉", 5000, 70),
+        p("jianye", "建业", "扬州", 18, 13, "吴", 10000, 85),
+        p("wu", "吴郡", "扬州", 19, 14, "吴", 7000, 80),
+        p("kuaiji", "会稽", "扬州", 20, 15, "吴", 5000, 75),
+        p("lujiang", "庐江", "扬州", 15, 13, "吴", 5000, 70),
 
         // 交州
-        p("jiaozhou", "交州", "交州", 16, 20, "汉", 4000, 55),
-        p("nanhai", "南海", "交州", 17, 21, "汉", 4000, 60),
-        p("jiuzhen", "九真", "交州", 17, 22, "汉", 3000, 55),
+        p("jiaozhou", "交州", "交州", 16, 20, "吴", 4000, 55),
+        p("nanhai", "南海", "交州", 17, 21, "吴", 4000, 60),
+        p("jiuzhen", "九真", "交州", 17, 22, "吴", 3000, 55),
 
         // 关隘
-        p("hangu", "函谷关", "关隘", 10, 7, "汉", 3000, 90),
-        p("yanmen", "雁门关", "关隘", 14, 2, "汉", 3000, 85),
-        p("wuguan", "武关", "关隘", 8, 9, "汉", 2500, 80),
+        p("hangu", "函谷关", "关隘", 10, 7, "魏", 3000, 90),
+        p("yanmen", "雁门关", "关隘", 14, 2, "匈奴", 3000, 85),
+        p("wuguan", "武关", "关隘", 8, 9, "魏", 2500, 80),
 
         // 草原/边陲
-        p("daijun", "代郡", "边陲", 15, 1, "汉", 2500, 50),
-        p("longxi", "陇西", "边陲", 4, 6, "汉", 3000, 55)
+        p("daijun", "代郡", "边陲", 15, 1, "匈奴", 2500, 50),
+        p("longxi", "陇西", "边陲", 4, 6, "群雄", 3000, 55)
     )
 
     private fun p(id: String, name: String, region: String, gx: Int, gy: Int,

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ink_black">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一统天下"
+            android:textColor="@color/ink_gold"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/tvDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="陛下削平群雄..."
+            android:textColor="@color/silk_bg"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp" />
+
+        <TextView
+            android:id="@+id/tvStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/ink_cyan"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp" />
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="240dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="48dp"
+            android:layout_gravity="center"
+            android:text="回到主菜单"
+            android:textColor="@color/silk_bg"
+            android:textSize="20sp"
+            android:background="@drawable/btn_round_red" />
+    </LinearLayout>
+</FrameLayout>

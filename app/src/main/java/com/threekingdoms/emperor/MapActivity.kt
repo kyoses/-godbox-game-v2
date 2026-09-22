@@ -25,12 +25,14 @@ class MapActivity : AppCompatActivity(), MapView.OnPrefectureClickListener {
     }
 
     override fun onPrefectureClick(prefecture: Prefecture) {
+        // 我方郡：内政管理
         if (prefecture.ownerForce == state.emperor.force) {
-            Toast.makeText(this, "这是您的领地", Toast.LENGTH_SHORT).show()
-            return
+            startActivity(Intent(this, PrefectureManageActivity::class.java)
+                .putExtra(PrefectureManageActivity.EXTRA_PREFECTURE_ID, prefecture.id))
+        } else {
+            // 敌方郡：亲征
+            startActivity(Intent(this, BattleActivity::class.java)
+                .putExtra(BattleActivity.EXTRA_PREFECTURE_ID, prefecture.id))
         }
-        // 启动亲征
-        startActivity(Intent(this, BattleActivity::class.java)
-            .putExtra(BattleActivity.EXTRA_PREFECTURE_ID, prefecture.id))
     }
 }

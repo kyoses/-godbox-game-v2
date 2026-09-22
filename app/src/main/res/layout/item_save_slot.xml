@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/btn_round_silk"
+    android:padding="16dp"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvSlot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="存档 1"
+        android:textColor="@color/ink_red"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="空"
+        android:textColor="@color/ink_cyan"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp">
+
+        <Button
+            android:id="@+id/btnLoad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="读档"
+            android:textColor="@color/silk_bg"
+            android:background="@drawable/btn_round_red" />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="删除"
+            android:textColor="@color/ink_red"
+            android:background="@drawable/btn_round_silk" />
+    </LinearLayout>
+</LinearLayout>
