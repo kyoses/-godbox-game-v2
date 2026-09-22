@@ -31,8 +31,11 @@ class MapView @JvmOverloads constructor(
     private var playerForce: String = ""
     var listener: OnPrefectureClickListener? = null
 
-    private val tileWidth = 56f
-    private val tileHeight = 28f
+    // 缓存绘制参数供 onTouchEvent 使用
+    private var originX: Float = 0f
+    private var originY: Float = 0f
+    private var minGridX: Int = 0
+    private var minGridY: Int = 0
 
     fun setPrefectures(list: List<Prefecture>) {
         prefectures = list
@@ -44,32 +47,73 @@ class MapView @JvmOverloads constructor(
         invalidate()
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        computeOrigin()
+    }
+
+    private fun computeOrigin() {
+        if (prefectures.isEmpty()) return
+        val w = width.toFloat()
+        val h = height.toFloat()
+        // 留出底部图例 + 顶部标题的空间
+        val reservedBottom = 80f
+        val reservedTop = 60f
+        val usableW = w * 0.9f
+        val usableH = h - reservedBottom - reservedTop
+
+        val minX = prefectures.minOf { it.gridX }
+        val maxX = prefectures.maxOf { it.gridX }
+        val minY = prefectures.minOf { it.gridY }
+        val maxY = prefectures.maxOf { it.gridY }
+
+        val rangeX = (maxX - minX)
+        val rangeY = (maxY - minY)
+        val rangeSum = rangeX + rangeY
+
+        // tileWidth 由可用宽度 / X范围决定
+        val tileW = usableW / (rangeX + 1)
+        // tileHeight 由可用高度 / Y范围决定
+        val tileH = usableH / (rangeSum + 2)
+        currentTileWidth = tileW.coerceIn(40f, 100f)
+        currentTileHeight = tileH.coerceIn(20f, 50f)
+
+        minGridX = minX
+        minGridY = minY
+
+        // 让地图中心对齐屏幕中心
+        // 地图"宽度" = (rangeX + 1) * tileW
+        // 地图"高度" = (rangeSum + 1) * tileH
+        originX = (w - (rangeX + 1) * currentTileWidth) / 2f + currentTileWidth / 2f
+        originY = reservedTop + (usableH - (rangeSum + 1) * currentTileHeight) / 2f + currentTileHeight / 2f
+    }
+
+    private var currentTileWidth: Float = 56f
+    private var currentTileHeight: Float = 28f
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         val w = width.toFloat()
         val h = height.toFloat()
 
-        // 背景
         paint.color = Color.rgb(20, 30, 45)
         canvas.drawRect(0f, 0f, w, h, paint)
 
         if (prefectures.isEmpty()) return
 
-        // 计算地图范围
-        val minX = prefectures.minOf { it.gridX }
-        val maxX = prefectures.maxOf { it.gridX }
-        val minY = prefectures.minOf { it.gridY }
-        val maxY = prefectures.maxOf { it.gridY }
+        if (originX == 0f && originY == 0f) computeOrigin()
 
-        val originX = (w - (maxX - minX) * tileWidth) / 2f + w * 0.05f
-        val originY = (h - (maxX - minX + maxY - minY) * tileHeight) / 2f + h * 0.1f
+        // 标题
+        paint.color = Color.rgb(200, 160, 60)
+        paint.textSize = 20f
+        canvas.drawText("天下九州 · 点击郡县开战", 16f, 30f, paint)
 
-        // 按 y+x 排序绘制（远处先画）
+        // 按 y+x 排序绘制
         val sorted = prefectures.sortedBy { it.gridX + it.gridY }
         for (p in sorted) {
-            val (sx, sy) = Projection.iso(p.gridX - minX, p.gridY - minY,
-                tileWidth, tileHeight, originX, originY)
+            val (sx, sy) = Projection.iso(p.gridX - minGridX, p.gridY - minGridY,
+                currentTileWidth, currentTileHeight, originX, originY)
             drawPrefectureTile(canvas, p, sx, sy)
             drawLabel(canvas, p.name, sx, sy)
         }
@@ -79,12 +123,12 @@ class MapView @JvmOverloads constructor(
     }
 
     private fun drawPrefectureTile(canvas: Canvas, p: Prefecture, cx: Float, cy: Float) {
-        val w = tileWidth / 2f
-        val h = tileHeight / 2f
+        val w = currentTileWidth / 2f
+        val h = currentTileHeight / 2f
         val color = when {
-            p.ownerForce == playerForce -> Color.rgb(220, 100, 80)   // 玩家红色
-            p.ownerForce == "汉" -> Color.rgb(120, 150, 100)         // 中立绿
-            else -> Color.rgb(160, 120, 80)                            // 其他势力棕
+            p.ownerForce == playerForce -> Color.rgb(220, 100, 80)
+            p.ownerForce == "汉" -> Color.rgb(120, 150, 100)
+            else -> Color.rgb(160, 120, 80)
         }
 
         path.reset()
@@ -96,27 +140,25 @@ class MapView @JvmOverloads constructor(
         paint.color = color
         canvas.drawPath(path, paint)
 
-        // 描边
         paint.color = Color.rgb(60, 50, 40)
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 1.5f
         canvas.drawPath(path, paint)
         paint.style = Paint.Style.FILL
 
-        // 城池 icon（小红块）
         paint.color = Color.rgb(180, 30, 30)
-        canvas.drawRect(cx - 4, cy - 4, cx + 4, cy + 4, paint)
+        canvas.drawRect(cx - 5, cy - 5, cx + 5, cy + 5, paint)
     }
 
     private fun drawLabel(canvas: Canvas, name: String, cx: Float, cy: Float) {
         paint.color = Color.WHITE
         paint.textSize = 11f
-        val w = paint.measureText(name)
-        canvas.drawText(name, cx - w / 2, cy + 22, paint)
+        val textWidth = paint.measureText(name)
+        canvas.drawText(name, cx - textWidth / 2, cy + 22, paint)
     }
 
     private fun drawLegend(canvas: Canvas, w: Float, h: Float) {
-        val legendY = h - 60
+        val legendY = h - 40f
         val items = listOf(
             Color.rgb(220, 100, 80) to "我方",
             Color.rgb(120, 150, 100) to "汉室",
@@ -131,42 +173,37 @@ class MapView @JvmOverloads constructor(
             canvas.drawText(label, x + 24, legendY + 16, paint)
             x += 100
         }
-        // 提示文字
-        paint.textSize = 14f
-        canvas.drawText("点击敌方州郡开战", 16f, 30f, paint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_UP) {
-            val w = width.toFloat()
-            val h = height.toFloat()
-            val minX = prefectures.minOf { it.gridX }
-            val maxX = prefectures.maxOf { it.gridX }
-            val originX = (w - (maxX - minX) * tileWidth) / 2f + w * 0.05f
-            val originY = (h - (maxX - minX + prefectures.maxOf { it.gridY } - prefectures.minOf { it.gridY }) * tileHeight) / 2f + h * 0.1f
-
-            // 找最近格
-            var best: Prefecture? = null
-            var bestDist = Float.MAX_VALUE
-            for (p in prefectures) {
-                val (sx, sy) = Projection.iso(p.gridX - minX, p.gridY - prefectures.minOf { it.gridY },
-                    tileWidth, tileHeight, originX, originY)
-                val dx = event.x - sx
-                val dy = event.y - sy
-                val dist = abs(dx) + abs(dy)
-                if (dist < bestDist) {
-                    bestDist = dist
-                    best = p
-                }
-            }
-
-            if (best != null && bestDist < tileWidth * 0.8f) {
-                listener?.onPrefectureClick(best)
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val hit = findPrefecture(event.x, event.y)
+            if (hit != null) {
+                listener?.onPrefectureClick(hit)
                 performClick()
                 return true
             }
         }
         return super.onTouchEvent(event)
+    }
+
+    private fun findPrefecture(sx: Float, sy: Float): Prefecture? {
+        var best: Prefecture? = null
+        var bestDist = Float.MAX_VALUE
+        for (p in prefectures) {
+            val (cx, cy) = Projection.iso(p.gridX - minGridX, p.gridY - minGridY,
+                currentTileWidth, currentTileHeight, originX, originY)
+            val dx = abs(sx - cx)
+            val dy = abs(sy - cy)
+            // 菱形"内部"判定：x 距离 + 2y 距离 < tileWidth
+            val dist = dx + 2 * dy
+            if (dist < bestDist) {
+                bestDist = dist
+                best = p
+            }
+        }
+        // tileWidth 命中半径
+        return if (best != null && bestDist < currentTileWidth * 1.2f) best else null
     }
 
     override fun performClick(): Boolean {
