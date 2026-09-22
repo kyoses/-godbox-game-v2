@@ -33,7 +33,7 @@ data class Event(
                 "宫中侍卫捉到一名刺客，审讯后供出背后主使。",
                 listOf(
                     EventChoice("严刑拷打后处死", authorityEffect = 3, moraleEffect = -2),
-                    EventChoice("赦免以彰显仁德", benevolence = 5),
+                    EventChoice("赦免以彰显仁德", moraleEffect = 5),
                     EventChoice("交由刑部审讯", goldEffect = 200)
                 )
             ).let { e ->

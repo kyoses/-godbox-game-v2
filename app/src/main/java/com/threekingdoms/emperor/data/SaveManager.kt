@@ -218,7 +218,11 @@ object SaveManager {
             val consorts = splitTopLevelObjects(consortsJson).mapNotNull { parseConsort(it) }
 
             GameState(
-                emperor, ministers, memorials, prefectures, consorts,
+                emperor,
+                ministers.toMutableList(),
+                memorials.toMutableList(),
+                prefectures.toMutableList(),
+                consorts.toMutableList(),
                 gold = extractInt(json, "gold") ?: 10000,
                 peopleMorale = extractInt(json, "peopleMorale") ?: 70,
                 troopTotal = extractInt(json, "troopTotal") ?: 50000,
