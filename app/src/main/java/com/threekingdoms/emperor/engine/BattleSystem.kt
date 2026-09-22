@@ -10,7 +10,7 @@ import kotlin.random.Random
  */
 object BattleSystem {
 
-    enum class Formation(val name: String, val attackBonus: Float, val defenseBonus: Float) {
+    enum class Formation(val displayName: String, val attackBonus: Float, val defenseBonus: Float) {
         BATTLE_ARRAY("八阵图", 1.0f, 1.3f),
         MANDARIN_DUCK("鸳鸯阵", 1.1f, 1.1f),
         ARROW("锋矢阵", 1.4f, 0.9f),
@@ -33,7 +33,7 @@ object BattleSystem {
     ): BattleResult {
         val log = mutableListOf<String>()
         log.add("【出征】${state.emperor.name} 亲率大军攻伐 ${target.name}！")
-        log.add("【阵法】${formation.name}")
+        log.add("【阵法】${formation.displayName}")
 
         val bestGeneral = state.ministers
             .filter { it.status == com.threekingdoms.emperor.data.MinisterStatus.IN_OFFICE }
