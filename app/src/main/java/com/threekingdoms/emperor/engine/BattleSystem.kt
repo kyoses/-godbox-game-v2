@@ -41,8 +41,8 @@ object BattleSystem {
         log.add("【前锋】${bestGeneral.name}（战力 ${bestGeneral.combatPower}）")
 
         val attackerPower = bestGeneral.combatPower * formation.attackBonus
-        val defenderPower = (target.troops / 100f) * (target.morale / 50f)
-            * formation.defenseBonus
+        val defenderPower = (target.troops / 100f) * (target.morale / 50f) *
+            formation.defenseBonus
         log.add("【交锋】我军攻势 ${attackerPower.toInt()} vs 敌守势 ${defenderPower.toInt()}")
 
         var atkHp = 100
